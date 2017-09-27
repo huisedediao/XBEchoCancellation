@@ -10,9 +10,6 @@
 #import <AVFoundation/AVFoundation.h>
 #import <AudioToolbox/AudioToolbox.h>
 
-#define kRate (8000)
-//#define kRate (44100)
-
 typedef enum : NSUInteger {
     XBEchoCancellationRate_8k = 8000,
     XBEchoCancellationRate_20k = 20000,
@@ -20,20 +17,41 @@ typedef enum : NSUInteger {
     XBEchoCancellationRate_96k = 96000
 } XBEchoCancellationRate;
 
+#define kRate (XBEchoCancellationRate_8k) //采样率
+#define kChannels   (1)//声道数
+#define kBits       (16)//位数
+
+
 typedef enum : NSUInteger {
     XBEchoCancellationStatus_open,
     XBEchoCancellationStatus_close
 } XBEchoCancellationStatus;
 
-typedef void (^XBEchoCancellationBlock)(AudioBuffer buffer);
+typedef void (^XBEchoCancellation_bufferBlock)(AudioBuffer buffer);
+typedef void (^XBEchoCancellation_playBlock)(void *mData,UInt32 inNumberFrames);
 
 @interface XBEchoCancellation : NSObject
 
 @property (nonatomic,assign) XBEchoCancellationStatus status;
 @property (nonatomic,assign) AudioStreamBasicDescription streamFormat;
 
+@property (nonatomic,copy) XBEchoCancellation_bufferBlock   bl_echoCancellation;
+@property (nonatomic,copy) XBEchoCancellation_playBlock     bl_play;
+
 + (instancetype)shared;
-- (void)startWithBlock:(XBEchoCancellationBlock)bl_buffer;
+
+- (void)startInput;
+- (void)stopInput;
+
+- (void)startOutput;
+- (void)stopOutput;
+
+- (void)openEchoCancellation;
+- (void)closeEchoCancellation;
+
+///开启服务，需要另外去开启 input 或者 output 功能
+- (void)startService;
+///停止所有功能（包括录音和播放）
 - (void)stop;
 
 @end
