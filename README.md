@@ -7,7 +7,7 @@
 <pre>
     XBEchoCancellation *echo = [XBEchoCancellation shared];
     echo.bl_input = ^(AudioBuffer buffer) {
-		//	这里的buffer即从麦克风采集到的声音数据
+        // buffer即从麦克风获取到的数据，默认已经消除了回音
     };
     [echo startInput];
 </pre>
