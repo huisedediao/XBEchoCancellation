@@ -31,8 +31,8 @@ typedef void (^XBEchoCancellation_inputBlock)(AudioBuffer buffer);
 typedef void (^XBEchoCancellation_outputBlock)(AudioBuffer buffer,UInt32 inNumberFrames);
 
 @interface XBEchoCancellation : NSObject
-
-@property (nonatomic,assign,readonly) XBEchoCancellationStatus status;
+///是否开启了回声消除
+@property (nonatomic,assign,readonly) XBEchoCancellationStatus echoCancellationStatus;
 @property (nonatomic,assign,readonly) AudioStreamBasicDescription streamFormat;
 ///录音的回调，回调的参数为从麦克风采集到的声音
 @property (nonatomic,copy) XBEchoCancellation_inputBlock bl_input;
