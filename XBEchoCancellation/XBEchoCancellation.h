@@ -27,8 +27,8 @@ typedef enum : NSUInteger {
     XBEchoCancellationStatus_close
 } XBEchoCancellationStatus;
 
-typedef void (^XBEchoCancellation_inputBlock)(AudioBuffer buffer);
-typedef void (^XBEchoCancellation_outputBlock)(AudioBuffer buffer,UInt32 inNumberFrames);
+typedef void (^XBEchoCancellation_inputBlock)(AudioBufferList *bufferList);
+typedef void (^XBEchoCancellation_outputBlock)(AudioBufferList *bufferList,UInt32 inNumberFrames);
 
 @interface XBEchoCancellation : NSObject
 ///是否开启了回声消除

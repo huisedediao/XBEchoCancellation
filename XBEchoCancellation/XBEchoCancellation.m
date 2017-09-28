@@ -331,11 +331,11 @@ OSStatus InputCallback_xb(void *inRefCon,
                                       1,
                                       inNumberFrames,
                                       &bufferList);
-    AudioBuffer buffer = bufferList.mBuffers[0];
+//    AudioBuffer buffer = bufferList.mBuffers[0];
     
     if (echoCancellation.bl_input)
     {
-        echoCancellation.bl_input(buffer);
+        echoCancellation.bl_input(&bufferList);
     }
 
     NSLog(@"InputCallback");
@@ -361,7 +361,7 @@ OSStatus outputRenderTone_xb(
     }
     if (echoCancellation.bl_output)
     {
-        echoCancellation.bl_output(ioData->mBuffers[0],inNumberFrames);
+        echoCancellation.bl_output(ioData,inNumberFrames);
     }
 
     NSLog(@"outputRenderTone");

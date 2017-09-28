@@ -6,7 +6,8 @@
 #### 获取麦克风输入：
 <pre>
     XBEchoCancellation *echo = [XBEchoCancellation shared];
-    echo.bl_input = ^(AudioBuffer buffer) {
+    echo.bl_input = ^(AudioBufferList *bufferList) {
+    	AudioBuffer buffer = bufferList->mBuffers[0];
         // buffer即从麦克风获取到的数据，默认已经消除了回音
     };
     [echo startInput];
@@ -15,7 +16,8 @@
 #### 播放pcm音频数据：
 <pre>
     XBEchoCancellation *echo = [XBEchoCancellation shared];
-    echo.bl_output = ^(AudioBuffer buffer, UInt32 inNumberFrames) {
+    echo.bl_output = ^(AudioBufferList *bufferList, UInt32 inNumberFrames) {
+    	AudioBuffer buffer = bufferList->mBuffers[0];
         // 这里把要传给发声设备的pcm数据赋给buffer
     };
     [echo startOutput];
