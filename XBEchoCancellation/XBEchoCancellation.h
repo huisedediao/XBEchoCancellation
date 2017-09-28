@@ -27,16 +27,17 @@ typedef enum : NSUInteger {
     XBEchoCancellationStatus_close
 } XBEchoCancellationStatus;
 
-typedef void (^XBEchoCancellation_bufferBlock)(AudioBuffer buffer);
-typedef void (^XBEchoCancellation_playBlock)(void *mData,UInt32 inNumberFrames);
+typedef void (^XBEchoCancellation_inputBlock)(AudioBuffer buffer);
+typedef void (^XBEchoCancellation_outputBlock)(AudioBuffer buffer,UInt32 inNumberFrames);
 
 @interface XBEchoCancellation : NSObject
 
-@property (nonatomic,assign) XBEchoCancellationStatus status;
-@property (nonatomic,assign) AudioStreamBasicDescription streamFormat;
-
-@property (nonatomic,copy) XBEchoCancellation_bufferBlock   bl_echoCancellation;
-@property (nonatomic,copy) XBEchoCancellation_playBlock     bl_play;
+@property (nonatomic,assign,readonly) XBEchoCancellationStatus status;
+@property (nonatomic,assign,readonly) AudioStreamBasicDescription streamFormat;
+///录音的回调，回调的参数为从麦克风采集到的声音
+@property (nonatomic,copy) XBEchoCancellation_inputBlock bl_input;
+///播放的回调，回调的参数 buffer 为要向播放设备（扬声器、耳机、听筒等）传的数据，在回调里把数据传给 buffer
+@property (nonatomic,copy) XBEchoCancellation_outputBlock bl_output;
 
 + (instancetype)shared;
 

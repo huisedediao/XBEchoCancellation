@@ -19,8 +19,8 @@ typedef struct MyAUGraphStruct{
     MyAUGraphStruct myStruct;
 }
 @property (nonatomic,assign) BOOL isCloseService; //没有声音服务
-@property (nonatomic,assign) BOOL isNeedInputCallback; //需要录音回调(input即麦克风采集到的声音)
-@property (nonatomic,assign) BOOL isNeedOutputCallback; //需要播放回调(output即像麦克风传递的声音)
+@property (nonatomic,assign) BOOL isNeedInputCallback; //需要录音回调(获取input即麦克风采集到的声音回调)
+@property (nonatomic,assign) BOOL isNeedOutputCallback; //需要播放回调(output即向发声设备传递声音回调)
 
 @end
 
@@ -57,11 +57,7 @@ typedef struct MyAUGraphStruct{
 
 - (void)startInput
 {
-    if (self.isCloseService)
-    {
-        NSLog(@"请调用startService开启服务");
-        return;
-    }
+    [self startService];
     self.isNeedInputCallback = YES;
 }
 - (void)stopInput
@@ -70,11 +66,7 @@ typedef struct MyAUGraphStruct{
 }
 - (void)startOutput
 {
-    if (self.isCloseService)
-    {
-        NSLog(@"请调用startService开启服务");
-        return;
-    }
+    [self startService];
     self.isNeedOutputCallback = YES;
     AudioOutputUnitStart(myStruct.remoteIOUnit);
 }
@@ -106,8 +98,8 @@ typedef struct MyAUGraphStruct{
 
 - (void)stop
 {
-    self.bl_echoCancellation = nil;
-    self.bl_play = nil;
+    self.bl_input = nil;
+    self.bl_output = nil;
     [self stopGraph:myStruct.graph];
 }
 - (void)openEchoCancellation
@@ -343,9 +335,9 @@ OSStatus InputCallback_xb(void *inRefCon,
                                       &bufferList);
     AudioBuffer buffer = bufferList.mBuffers[0];
     
-    if (echoCancellation.bl_echoCancellation)
+    if (echoCancellation.bl_input)
     {
-        echoCancellation.bl_echoCancellation(buffer);
+        echoCancellation.bl_input(buffer);
     }
 
     NSLog(@"InputCallback");
@@ -369,9 +361,9 @@ OSStatus outputRenderTone_xb(
         //        NSLog(@"没有开启声音输出回调");
         return noErr;
     }
-    if (echoCancellation.bl_play)
+    if (echoCancellation.bl_output)
     {
-        echoCancellation.bl_play(ioData->mBuffers[0].mData,inNumberFrames);
+        echoCancellation.bl_output(ioData->mBuffers[0],inNumberFrames);
     }
 
     NSLog(@"outputRenderTone");
