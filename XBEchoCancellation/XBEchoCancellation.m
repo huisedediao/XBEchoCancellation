@@ -47,7 +47,7 @@ typedef struct MyAUGraphStruct{
     {
         static dispatch_once_t onceToken;
         dispatch_once(&onceToken, ^{
-            self.status = XBEchoCancellationStatus_close;
+            _status = XBEchoCancellationStatus_close;
             self.isCloseService = YES;
             [self startService];
         });
@@ -146,7 +146,7 @@ typedef struct MyAUGraphStruct{
                                     &newEchoCancellationStatus,
                                     sizeof(newEchoCancellationStatus)),
                "AudioUnitSetProperty kAUVoiceIOProperty_BypassVoiceProcessing failed");
-    self.status = newEchoCancellationStatus == 0 ? XBEchoCancellationStatus_open : XBEchoCancellationStatus_close;
+    _status = newEchoCancellationStatus == 0 ? XBEchoCancellationStatus_open : XBEchoCancellationStatus_close;
 }
 
 -(void)startGraph:(AUGraph)graph
@@ -155,7 +155,7 @@ typedef struct MyAUGraphStruct{
                "AUGraphInitialize failed");
     CheckError(AUGraphStart(graph),
                "AUGraphStart failed");
-    self.status = XBEchoCancellationStatus_open;
+    _status = XBEchoCancellationStatus_open;
 }
 
 - (void)stopGraph:(AUGraph)graph
@@ -169,7 +169,7 @@ typedef struct MyAUGraphStruct{
     CheckError(AUGraphStop(graph),
                "AUGraphStop failed");
     self.isCloseService = YES;
-    self.status = XBEchoCancellationStatus_close;
+    _status = XBEchoCancellationStatus_close;
 }
 
 
