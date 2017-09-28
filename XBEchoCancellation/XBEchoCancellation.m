@@ -367,4 +367,61 @@ OSStatus outputRenderTone_xb(
     NSLog(@"outputRenderTone");
     return 0;
 }
+
++ (void)volume_controlOut_buf:(short *)out_buf in_buf:(short *)in_buf in_len:(int)in_len in_vol:(float)in_vol
+{
+    volume_control(out_buf, in_buf, in_len, in_vol);
+}
+
+// 音量控制
+// output: para1 输出数据
+// input : para2 输入数据
+//         para3 输入长度
+//         para4 音量控制参数,有效控制范围[0,100]
+// 超过100，则为倍数，倍数为in_vol减去98的数值
+int volume_control(short* out_buf,short* in_buf,int in_len, float in_vol)
+{
+    int i,tmp;
+    
+    // in_vol[0,100]
+    float vol = in_vol - 98;
+    
+    if(-98 < vol  &&  vol <0 )
+    {
+        vol = 1/(vol*(-1));
+    }
+    else if(0 <= vol && vol <= 1)
+    {
+        vol = 1;
+    }
+    /*else if(1 < vol && vol <= 2)
+     {
+     vol = vol;
+     }*/
+    else if(vol <= -98)
+    {
+        vol = 0;
+    }
+    //    else if(2 = vol)
+    //    {
+    //        vol = 2;
+    //    }
+    
+    for(i=0; i<in_len/2; i++)
+    {
+        tmp = in_buf[i]*vol;
+        if(tmp > 32767)
+        {
+            tmp = 32767;
+        }
+        else if( tmp < -32768)
+        {
+            tmp = -32768;
+        }
+        out_buf[i] = tmp;
+    }
+    
+    return 0;
+}
+
 @end

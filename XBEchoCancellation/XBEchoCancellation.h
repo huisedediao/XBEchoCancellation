@@ -55,4 +55,12 @@ typedef void (^XBEchoCancellation_outputBlock)(AudioBufferList *bufferList,UInt3
 ///停止所有功能（包括录音和播放）
 - (void)stop;
 
+// 音量控制 
+// output: para1 输出数据
+// input : para2 输入数据
+//         para3 输入长度
+//         para4 音量控制参数,有效控制范围[0,100]
+// 超过100，则为倍数，倍数为in_vol减去98的数值
++ (void)volume_controlOut_buf:(short *)out_buf in_buf:(short *)in_buf in_len:(int)in_len in_vol:(float)in_vol;
+
 @end
