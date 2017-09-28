@@ -68,12 +68,10 @@ typedef struct MyAUGraphStruct{
 {
     [self startService];
     self.isNeedOutputCallback = YES;
-    AudioOutputUnitStart(myStruct.remoteIOUnit);
 }
 - (void)stopOutput
 {
     self.isNeedOutputCallback = NO;
-    AudioOutputUnitStop(myStruct.remoteIOUnit);
 }
 - (void)startService
 {
@@ -90,7 +88,7 @@ typedef struct MyAUGraphStruct{
     
     [self startGraph:myStruct.graph];
     
-//    AudioOutputUnitStop(myStruct.remoteIOUnit);
+    AudioOutputUnitStart(myStruct.remoteIOUnit);
     
     self.isCloseService = NO;
     NSLog(@"startService完成");
