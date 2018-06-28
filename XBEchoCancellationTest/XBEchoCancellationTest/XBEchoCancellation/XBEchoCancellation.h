@@ -18,7 +18,7 @@ typedef enum : NSUInteger {
 } XBEchoCancellationRate;
 
 #define kRate (XBEchoCancellationRate_8k) //采样率
-#define kChannels   (1)//声道数
+#define kChannels   (2)//声道数
 #define kBits       (16)//位数
 
 

@@ -223,13 +223,15 @@ typedef struct MyAUGraphStruct{
                                     sizeof(outputEnableFlag)),
                "Open output of bus 0 failed");
     
+    UInt32 mFramesPerPacket = 1;
+    UInt32 mBytesPerFrame = kChannels * kBits / 8;
     //Set up stream format for input and output
     streamFormat.mFormatID = kAudioFormatLinearPCM;
     streamFormat.mFormatFlags = kAudioFormatFlagIsSignedInteger | kAudioFormatFlagIsPacked;
     streamFormat.mSampleRate = kRate;
-    streamFormat.mFramesPerPacket = 1;
-    streamFormat.mBytesPerFrame = 2;
-    streamFormat.mBytesPerPacket = 2;
+    streamFormat.mFramesPerPacket = mFramesPerPacket;
+    streamFormat.mBytesPerFrame = mBytesPerFrame;
+    streamFormat.mBytesPerPacket = mBytesPerFrame * mFramesPerPacket;
     streamFormat.mBitsPerChannel = kBits;
     streamFormat.mChannelsPerFrame = kChannels;
     

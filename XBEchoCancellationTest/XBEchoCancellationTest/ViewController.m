@@ -70,12 +70,17 @@ UInt32 _readerLength;
         [XBEchoCancellation shared].bl_output = ^(AudioBufferList *bufferList, UInt32 inNumberFrames) {
             AudioBuffer buffer = bufferList->mBuffers[0];
             
-            char data[buffer.mDataByteSize];
+            char *data = malloc(buffer.mDataByteSize);
             int len = readData(data, buffer.mDataByteSize);
             
             memcpy(buffer.mData, data, len);
             buffer.mDataByteSize = len;
             
+            if (len == 0)
+            {
+                [[XBEchoCancellation shared] stopOutput];
+            }
+            free(data);
         };
     }
 
@@ -94,12 +99,30 @@ UInt32 _readerLength;
 
 int readData(char *data, int len)
 {
+    UInt32 currentReadLength = 0;
     NSData *dataStore = [NSData dataWithContentsOfFile:stroePath];
-    NSData *subData = [dataStore subdataWithRange:NSMakeRange(_readerLength, len)];
+    if (_readerLength >= dataStore.length)
+    {
+        _readerLength = 0;
+        return currentReadLength;
+    }
+    if (_readerLength+ len <= dataStore.length)
+    {
+        _readerLength = _readerLength + len;
+        currentReadLength = len;
+    }
+    else
+    {
+        currentReadLength = (UInt32)(dataStore.length - _readerLength);
+        _readerLength = (UInt32) dataStore.length;
+    }
+    
+    NSData *subData = [dataStore subdataWithRange:NSMakeRange(_readerLength, currentReadLength)];
     Byte *tempByte = (Byte *)[subData bytes];
-    memcpy(data,tempByte,len);
-    _readerLength = _readerLength + len;
-    return len;
+    memcpy(data,tempByte,currentReadLength);
+    
+    
+    return currentReadLength;
 }
 
 
@@ -118,8 +141,8 @@ int readData(char *data, int len)
     NSString *pcmPath = stroePath;
     
     NSString *wavPath = [NSHomeDirectory() stringByAppendingString:@"/Documents/xbMedia.wav"];
-    char *pcmPath_c = [pcmPath UTF8String];
-    char *wavPath_c = [wavPath UTF8String];
+    char *pcmPath_c = (char *)[pcmPath UTF8String];
+    char *wavPath_c = (char *)[wavPath UTF8String];
     convertPcm2Wav(pcmPath_c, wavPath_c, 1, kRate);
     //进入沙盒找到xbMedia.wav即可
 }
