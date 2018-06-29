@@ -17,7 +17,7 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *record;
 @property (weak, nonatomic) IBOutlet UIButton *play;
-
+@property (nonatomic,strong) NSData *dataStore;
 @end
 
 @implementation ViewController
@@ -27,6 +27,7 @@ UInt32 _readerLength;
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    
 }
 
 
@@ -62,6 +63,8 @@ UInt32 _readerLength;
     }
 }
 - (IBAction)play:(UIButton *)sender {
+    typeof(self) __weak weakSelf = self;
+    self.dataStore = [NSData dataWithContentsOfFile:stroePath];
     [[XBEchoCancellation shared] stopInput];
     self.record.selected = NO;
     _readerLength = 0;
@@ -71,7 +74,7 @@ UInt32 _readerLength;
             AudioBuffer buffer = bufferList->mBuffers[0];
             
             char *data = malloc(buffer.mDataByteSize);
-            int len = readData(data, buffer.mDataByteSize);
+            int len = readData(data, buffer.mDataByteSize,weakSelf.dataStore);
             
             memcpy(buffer.mData, data, len);
             buffer.mDataByteSize = len;
@@ -97,10 +100,10 @@ UInt32 _readerLength;
 
 }
 
-int readData(char *data, int len)
+int readData(char *data, int len, NSData *dataStore)
 {
     UInt32 currentReadLength = 0;
-    NSData *dataStore = [NSData dataWithContentsOfFile:stroePath];
+    
     if (_readerLength >= dataStore.length)
     {
         _readerLength = 0;
