@@ -9,12 +9,10 @@
 #import "ViewController.h"
 #import "XBEchoCancellation.h"
 
-
 #define subPathPCM @"/Documents/xbMedia"
 #define stroePath [NSHomeDirectory() stringByAppendingString:subPathPCM]
 
 @interface ViewController ()
-
 @property (weak, nonatomic) IBOutlet UIButton *record;
 @property (weak, nonatomic) IBOutlet UIButton *play;
 @property (nonatomic,strong) NSData *dataStore;
@@ -27,7 +25,7 @@ UInt32 _readerLength;
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-    
+
 }
 
 
@@ -73,17 +71,15 @@ UInt32 _readerLength;
         [XBEchoCancellation shared].bl_output = ^(AudioBufferList *bufferList, UInt32 inNumberFrames) {
             AudioBuffer buffer = bufferList->mBuffers[0];
             
-            char *data = malloc(buffer.mDataByteSize);
-            int len = readData(data, buffer.mDataByteSize,weakSelf.dataStore);
-            
-            memcpy(buffer.mData, data, len);
+            int len = readData(buffer.mData, buffer.mDataByteSize,weakSelf.dataStore);
             buffer.mDataByteSize = len;
             
             if (len == 0)
             {
-                [[XBEchoCancellation shared] stopOutput];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [weakSelf play:weakSelf.play];
+                });
             }
-            free(data);
         };
     }
 
@@ -100,7 +96,7 @@ UInt32 _readerLength;
 
 }
 
-int readData(char *data, int len, NSData *dataStore)
+int readData(Byte *data, int len, NSData *dataStore)
 {
     UInt32 currentReadLength = 0;
     

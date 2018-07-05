@@ -340,7 +340,7 @@ OSStatus InputCallback_xb(void *inRefCon,
         echoCancellation.bl_input(&bufferList);
     }
 
-    NSLog(@"InputCallback");
+//    NSLog(@"InputCallback");
     return noErr;
 }
 OSStatus outputRenderTone_xb(
@@ -366,7 +366,7 @@ OSStatus outputRenderTone_xb(
         echoCancellation.bl_output(ioData,inNumberFrames);
     }
 
-    NSLog(@"outputRenderTone");
+//    NSLog(@"outputRenderTone");
     return 0;
 }
 
