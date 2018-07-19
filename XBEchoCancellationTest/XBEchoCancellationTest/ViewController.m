@@ -8,11 +8,14 @@
 
 #import "ViewController.h"
 #import "XBEchoCancellation.h"
+#import "XBAudioPlayer.h"
 
 #define subPathPCM @"/Documents/xbMedia"
 #define stroePath [NSHomeDirectory() stringByAppendingString:subPathPCM]
 
 @interface ViewController ()
+@property (weak, nonatomic) IBOutlet UIButton *openBtn;
+@property (nonatomic,strong) XBAudioPlayer *audioPlayer;
 @property (weak, nonatomic) IBOutlet UIButton *record;
 @property (weak, nonatomic) IBOutlet UIButton *play;
 @property (nonatomic,strong) NSData *dataStore;
@@ -26,11 +29,28 @@ UInt32 _readerLength;
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
 
+    [self.audioPlayer playWithErrorBlock:nil];
+}
+
+- (IBAction)openOrCloseEchoCancellation:(UIButton *)sender
+{
+    sender.selected = !sender.selected;
+    if (sender.selected)
+    {
+        [[XBEchoCancellation shared] openEchoCancellation];
+    }
+    else
+    {
+        
+        [[XBEchoCancellation shared] closeEchoCancellation];
+    }
 }
 
 
 - (IBAction)record:(UIButton *)sender {
+    [self.audioPlayer continuePlay];
     sender.selected = !sender.selected;
+    [[XBEchoCancellation shared] closeEchoCancellation];
     if ([XBEchoCancellation shared].bl_input == nil)
     {
         [XBEchoCancellation shared].bl_input = ^(AudioBufferList *bufferList) {
@@ -54,13 +74,17 @@ UInt32 _readerLength;
     {
         [self delete];
         [[XBEchoCancellation shared] startInput];
+        self.openBtn.hidden = NO;
     }
     else
     {
         [[XBEchoCancellation shared] stopInput];
+        self.openBtn.hidden = YES;
     }
 }
 - (IBAction)play:(UIButton *)sender {
+    [self.audioPlayer pause];
+    
     typeof(self) __weak weakSelf = self;
     self.dataStore = [NSData dataWithContentsOfFile:stroePath];
     [[XBEchoCancellation shared] stopInput];
@@ -313,5 +337,30 @@ int convertPcm2Wav(char *src_file, char *dst_file, int channels, int sample_rate
     
     return 0;
     
+}
+
+
+-(XBAudioPlayer *)audioPlayer
+{
+    if (_audioPlayer == nil)
+    {
+        _audioPlayer = [XBAudioPlayer new];
+        
+        //NSString *path0 = [[NSBundle mainBundle] pathForResource:@"周杰伦-晴天.mp3" ofType:nil];
+        //NSString *path5 = @"http://qqma.tingge123.com:823/mp3/2016-06-01/1464765547.mp3";//晴天在线、
+        //_audioPlayer.arr_urlStrs = @[path0];
+        NSString *path0 = [[NSBundle mainBundle] pathForResource:@"周杰伦-晴天.mp3" ofType:nil];
+        _audioPlayer.arr_urlStrs = @[path0,path0];
+        
+        _audioPlayer.b_autoPlayNext = YES;
+        _audioPlayer.bl_playProgress = ^(XBAVPlayer *player, CGFloat progress, CGFloat current, CGFloat total) {
+            NSLog(@"当前进度：%f, 播放了：%f, 总共：%f",progress,current,total);
+        };
+        
+        _audioPlayer.bl_bufferBlock = ^(XBAVPlayer *player, CGFloat totalBuffer) {
+            NSLog(@"已经缓冲了：%f",totalBuffer);
+        };
+    }
+    return _audioPlayer;
 }
 @end

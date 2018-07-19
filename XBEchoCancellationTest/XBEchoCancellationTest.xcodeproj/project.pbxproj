@@ -7,6 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F14E40C8210069AE008C7C4C /* XBAudioPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = F14E40AC210069AE008C7C4C /* XBAudioPlayer.m */; };
+		F14E40C9210069AE008C7C4C /* XBEffectSoundPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = F14E40AD210069AE008C7C4C /* XBEffectSoundPlayer.m */; };
+		F14E40CA210069AE008C7C4C /* XBAudioRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = F14E40AE210069AE008C7C4C /* XBAudioRecorder.m */; };
+		F14E40CB210069AE008C7C4C /* XBVideoPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = F14E40B2210069AE008C7C4C /* XBVideoPlayer.m */; };
+		F14E40CC210069AE008C7C4C /* NSURL+XBLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = F14E40B9210069AE008C7C4C /* NSURL+XBLoader.m */; };
+		F14E40CD210069AE008C7C4C /* NSString+XBLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = F14E40BA210069AE008C7C4C /* NSString+XBLoader.m */; };
+		F14E40CE210069AE008C7C4C /* XBAVFileHandle.m in Sources */ = {isa = PBXBuildFile; fileRef = F14E40BD210069AE008C7C4C /* XBAVFileHandle.m */; };
+		F14E40CF210069AE008C7C4C /* XBDataTaskManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F14E40BE210069AE008C7C4C /* XBDataTaskManager.m */; };
+		F14E40D0210069AE008C7C4C /* XBResourceLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = F14E40BF210069AE008C7C4C /* XBResourceLoader.m */; };
+		F14E40D1210069AE008C7C4C /* XBRequestTask.m in Sources */ = {isa = PBXBuildFile; fileRef = F14E40C0210069AE008C7C4C /* XBRequestTask.m */; };
+		F14E40D2210069AE008C7C4C /* XBAVPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = F14E40C6210069AE008C7C4C /* XBAVPlayer.m */; };
+		F14E40D3210069AE008C7C4C /* XBAudioModeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F14E40C7210069AE008C7C4C /* XBAudioModeManager.m */; };
+		F14E40D7210069C1008C7C4C /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = F14E40D5210069C1008C7C4C /* MBProgressHUD.m */; };
+		F14E40D921006B51008C7C4C /* 周杰伦-晴天.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F14E40D821006B51008C7C4C /* 周杰伦-晴天.mp3 */; };
 		F1813563206B5D6500C69F40 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F1813562206B5D6500C69F40 /* AppDelegate.m */; };
 		F1813566206B5D6500C69F40 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F1813565206B5D6500C69F40 /* ViewController.m */; };
 		F1813569206B5D6500C69F40 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F1813567206B5D6500C69F40 /* Main.storyboard */; };
@@ -36,6 +50,35 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F14E40AB210069AE008C7C4C /* XBVideoPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBVideoPlayer.h; sourceTree = "<group>"; };
+		F14E40AC210069AE008C7C4C /* XBAudioPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBAudioPlayer.m; sourceTree = "<group>"; };
+		F14E40AD210069AE008C7C4C /* XBEffectSoundPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBEffectSoundPlayer.m; sourceTree = "<group>"; };
+		F14E40AE210069AE008C7C4C /* XBAudioRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBAudioRecorder.m; sourceTree = "<group>"; };
+		F14E40AF210069AE008C7C4C /* XBAudioModeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBAudioModeManager.h; sourceTree = "<group>"; };
+		F14E40B0210069AE008C7C4C /* XBEffectSoundPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBEffectSoundPlayer.h; sourceTree = "<group>"; };
+		F14E40B1210069AE008C7C4C /* XBAudioPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBAudioPlayer.h; sourceTree = "<group>"; };
+		F14E40B2210069AE008C7C4C /* XBVideoPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBVideoPlayer.m; sourceTree = "<group>"; };
+		F14E40B3210069AE008C7C4C /* XBAudioRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBAudioRecorder.h; sourceTree = "<group>"; };
+		F14E40B7210069AE008C7C4C /* NSString+XBLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+XBLoader.h"; sourceTree = "<group>"; };
+		F14E40B8210069AE008C7C4C /* NSURL+XBLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+XBLoader.h"; sourceTree = "<group>"; };
+		F14E40B9210069AE008C7C4C /* NSURL+XBLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+XBLoader.m"; sourceTree = "<group>"; };
+		F14E40BA210069AE008C7C4C /* NSString+XBLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+XBLoader.m"; sourceTree = "<group>"; };
+		F14E40BB210069AE008C7C4C /* XBRequestTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBRequestTask.h; sourceTree = "<group>"; };
+		F14E40BC210069AE008C7C4C /* XBResourceLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBResourceLoader.h; sourceTree = "<group>"; };
+		F14E40BD210069AE008C7C4C /* XBAVFileHandle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBAVFileHandle.m; sourceTree = "<group>"; };
+		F14E40BE210069AE008C7C4C /* XBDataTaskManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBDataTaskManager.m; sourceTree = "<group>"; };
+		F14E40BF210069AE008C7C4C /* XBResourceLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBResourceLoader.m; sourceTree = "<group>"; };
+		F14E40C0210069AE008C7C4C /* XBRequestTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBRequestTask.m; sourceTree = "<group>"; };
+		F14E40C1210069AE008C7C4C /* XBLoaderHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBLoaderHeader.h; sourceTree = "<group>"; };
+		F14E40C2210069AE008C7C4C /* XBDataTaskManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBDataTaskManager.h; sourceTree = "<group>"; };
+		F14E40C3210069AE008C7C4C /* XBAVFileHandle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBAVFileHandle.h; sourceTree = "<group>"; };
+		F14E40C4210069AE008C7C4C /* XBAVPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBAVPlayer.h; sourceTree = "<group>"; };
+		F14E40C5210069AE008C7C4C /* XBAVPlayerConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBAVPlayerConfig.h; sourceTree = "<group>"; };
+		F14E40C6210069AE008C7C4C /* XBAVPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBAVPlayer.m; sourceTree = "<group>"; };
+		F14E40C7210069AE008C7C4C /* XBAudioModeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBAudioModeManager.m; sourceTree = "<group>"; };
+		F14E40D5210069C1008C7C4C /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		F14E40D6210069C1008C7C4C /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		F14E40D821006B51008C7C4C /* 周杰伦-晴天.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "周杰伦-晴天.mp3"; sourceTree = "<group>"; };
 		F181355E206B5D6500C69F40 /* XBEchoCancellationTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XBEchoCancellationTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F1813561206B5D6500C69F40 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		F1813562206B5D6500C69F40 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -81,6 +124,72 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F14E40AA210069AE008C7C4C /* XBMediaPlayer */ = {
+			isa = PBXGroup;
+			children = (
+				F14E40AB210069AE008C7C4C /* XBVideoPlayer.h */,
+				F14E40AC210069AE008C7C4C /* XBAudioPlayer.m */,
+				F14E40AD210069AE008C7C4C /* XBEffectSoundPlayer.m */,
+				F14E40AE210069AE008C7C4C /* XBAudioRecorder.m */,
+				F14E40AF210069AE008C7C4C /* XBAudioModeManager.h */,
+				F14E40B0210069AE008C7C4C /* XBEffectSoundPlayer.h */,
+				F14E40B1210069AE008C7C4C /* XBAudioPlayer.h */,
+				F14E40B2210069AE008C7C4C /* XBVideoPlayer.m */,
+				F14E40B3210069AE008C7C4C /* XBAudioRecorder.h */,
+				F14E40B4210069AE008C7C4C /* base */,
+				F14E40C7210069AE008C7C4C /* XBAudioModeManager.m */,
+			);
+			path = XBMediaPlayer;
+			sourceTree = "<group>";
+		};
+		F14E40B4210069AE008C7C4C /* base */ = {
+			isa = PBXGroup;
+			children = (
+				F14E40B5210069AE008C7C4C /* XBLoader */,
+				F14E40C4210069AE008C7C4C /* XBAVPlayer.h */,
+				F14E40C5210069AE008C7C4C /* XBAVPlayerConfig.h */,
+				F14E40C6210069AE008C7C4C /* XBAVPlayer.m */,
+			);
+			path = base;
+			sourceTree = "<group>";
+		};
+		F14E40B5210069AE008C7C4C /* XBLoader */ = {
+			isa = PBXGroup;
+			children = (
+				F14E40B6210069AE008C7C4C /* Category */,
+				F14E40BB210069AE008C7C4C /* XBRequestTask.h */,
+				F14E40BC210069AE008C7C4C /* XBResourceLoader.h */,
+				F14E40BD210069AE008C7C4C /* XBAVFileHandle.m */,
+				F14E40BE210069AE008C7C4C /* XBDataTaskManager.m */,
+				F14E40BF210069AE008C7C4C /* XBResourceLoader.m */,
+				F14E40C0210069AE008C7C4C /* XBRequestTask.m */,
+				F14E40C1210069AE008C7C4C /* XBLoaderHeader.h */,
+				F14E40C2210069AE008C7C4C /* XBDataTaskManager.h */,
+				F14E40C3210069AE008C7C4C /* XBAVFileHandle.h */,
+			);
+			path = XBLoader;
+			sourceTree = "<group>";
+		};
+		F14E40B6210069AE008C7C4C /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				F14E40B7210069AE008C7C4C /* NSString+XBLoader.h */,
+				F14E40B8210069AE008C7C4C /* NSURL+XBLoader.h */,
+				F14E40B9210069AE008C7C4C /* NSURL+XBLoader.m */,
+				F14E40BA210069AE008C7C4C /* NSString+XBLoader.m */,
+			);
+			path = Category;
+			sourceTree = "<group>";
+		};
+		F14E40D4210069C1008C7C4C /* MBProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				F14E40D5210069C1008C7C4C /* MBProgressHUD.m */,
+				F14E40D6210069C1008C7C4C /* MBProgressHUD.h */,
+			);
+			path = MBProgressHUD;
+			sourceTree = "<group>";
+		};
 		F1813555206B5D6500C69F40 = {
 			isa = PBXGroup;
 			children = (
@@ -104,6 +213,9 @@
 		F1813560206B5D6500C69F40 /* XBEchoCancellationTest */ = {
 			isa = PBXGroup;
 			children = (
+				F14E40D821006B51008C7C4C /* 周杰伦-晴天.mp3 */,
+				F14E40D4210069C1008C7C4C /* MBProgressHUD */,
+				F14E40AA210069AE008C7C4C /* XBMediaPlayer */,
 				F1813593206B5DA900C69F40 /* XBEchoCancellation */,
 				F1813561206B5D6500C69F40 /* AppDelegate.h */,
 				F1813562206B5D6500C69F40 /* AppDelegate.m */,
@@ -251,6 +363,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F14E40D921006B51008C7C4C /* 周杰伦-晴天.mp3 in Resources */,
 				F181356E206B5D6500C69F40 /* LaunchScreen.storyboard in Resources */,
 				F181356B206B5D6500C69F40 /* Assets.xcassets in Resources */,
 				F1813569206B5D6500C69F40 /* Main.storyboard in Resources */,
@@ -278,9 +391,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F14E40CD210069AE008C7C4C /* NSString+XBLoader.m in Sources */,
+				F14E40CB210069AE008C7C4C /* XBVideoPlayer.m in Sources */,
 				F1813566206B5D6500C69F40 /* ViewController.m in Sources */,
+				F14E40CA210069AE008C7C4C /* XBAudioRecorder.m in Sources */,
+				F14E40C8210069AE008C7C4C /* XBAudioPlayer.m in Sources */,
 				F1813596206B5DAA00C69F40 /* XBEchoCancellation.m in Sources */,
+				F14E40D1210069AE008C7C4C /* XBRequestTask.m in Sources */,
+				F14E40D7210069C1008C7C4C /* MBProgressHUD.m in Sources */,
+				F14E40CE210069AE008C7C4C /* XBAVFileHandle.m in Sources */,
+				F14E40CC210069AE008C7C4C /* NSURL+XBLoader.m in Sources */,
+				F14E40D2210069AE008C7C4C /* XBAVPlayer.m in Sources */,
+				F14E40CF210069AE008C7C4C /* XBDataTaskManager.m in Sources */,
+				F14E40D3210069AE008C7C4C /* XBAudioModeManager.m in Sources */,
+				F14E40C9210069AE008C7C4C /* XBEffectSoundPlayer.m in Sources */,
 				F1813571206B5D6500C69F40 /* main.m in Sources */,
+				F14E40D0210069AE008C7C4C /* XBResourceLoader.m in Sources */,
 				F1813563206B5D6500C69F40 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
