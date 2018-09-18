@@ -84,6 +84,7 @@ UInt32 _readerLength;
 }
 - (IBAction)play:(UIButton *)sender {
     [self.audioPlayer pause];
+    self.openBtn.selected = NO;
     
     typeof(self) __weak weakSelf = self;
     self.dataStore = [NSData dataWithContentsOfFile:stroePath];
@@ -166,7 +167,7 @@ int readData(Byte *data, int len, NSData *dataStore)
     NSString *wavPath = [NSHomeDirectory() stringByAppendingString:@"/Documents/xbMedia.wav"];
     char *pcmPath_c = (char *)[pcmPath UTF8String];
     char *wavPath_c = (char *)[wavPath UTF8String];
-    convertPcm2Wav(pcmPath_c, wavPath_c, 1, kRate);
+    convertPcm2Wav(pcmPath_c, wavPath_c, 1, 8000);
     //进入沙盒找到xbMedia.wav即可
 }
 

@@ -11,18 +11,6 @@
 #import <AudioToolbox/AudioToolbox.h>
 
 typedef enum : NSUInteger {
-    XBEchoCancellationRate_8k = 8000,
-    XBEchoCancellationRate_20k = 20000,
-    XBEchoCancellationRate_44k = 44100,
-    XBEchoCancellationRate_96k = 96000
-} XBEchoCancellationRate;
-
-#define kRate (XBEchoCancellationRate_8k) //采样率
-#define kChannels   (2)//声道数
-#define kBits       (16)//位数
-
-
-typedef enum : NSUInteger {
     XBEchoCancellationStatus_open,
     XBEchoCancellationStatus_close
 } XBEchoCancellationStatus;
@@ -40,6 +28,8 @@ typedef void (^XBEchoCancellation_outputBlock)(AudioBufferList *bufferList,UInt3
 @property (nonatomic,copy) XBEchoCancellation_outputBlock bl_output;
 
 + (instancetype)shared;
+
+- (instancetype)initWithRate:(int)rate bit:(int)bit channel:(int)channel;
 
 - (void)startInput;
 - (void)stopInput;

@@ -17,8 +17,11 @@ typedef struct MyAUGraphStruct{
 @interface XBEchoCancellation ()
 {
     MyAUGraphStruct myStruct;
+    int _rate;
+    int _bit;
+    int _channel;
 }
-@property (nonatomic,assign) BOOL isCloseService; //没有声音服务
+@property (nonatomic,assign) BOOL isRunningService; //是否运行着声音服务
 @property (nonatomic,assign) BOOL isNeedInputCallback; //需要录音回调(获取input即麦克风采集到的声音回调)
 @property (nonatomic,assign) BOOL isNeedOutputCallback; //需要播放回调(output即向发声设备传递声音回调)
 
@@ -30,31 +33,50 @@ typedef struct MyAUGraphStruct{
 
 + (instancetype)shared
 {
-    return [self new];
-}
-+ (instancetype)allocWithZone:(struct _NSZone *)zone
-{
-    static XBEchoCancellation *cancel = nil;
+    static XBEchoCancellation *echo = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        cancel = [super allocWithZone:zone];
+        echo = [[XBEchoCancellation alloc] init];
     });
-    return cancel;
+    return echo;
 }
+
 - (instancetype)init
 {
     if (self = [super init])
     {
-        static dispatch_once_t onceToken;
-        dispatch_once(&onceToken, ^{
-            _echoCancellationStatus = XBEchoCancellationStatus_close;
-            self.isCloseService = YES;
-            [self startService];
-        });
+        _rate = 8000;
+        _bit = 16;
+        _channel = 1;
+        _echoCancellationStatus = XBEchoCancellationStatus_close;
+        self.isRunningService = NO;
+        [self startService];
     }
     return self;
 }
 
+- (instancetype)initWithRate:(int)rate bit:(int)bit channel:(int)channel
+{
+    if (self = [super init])
+    {
+        _rate = rate;
+        _bit = bit;
+        _channel = channel;
+        _echoCancellationStatus = XBEchoCancellationStatus_close;
+        self.isRunningService = NO;
+        [self startService];
+    }
+    return self;
+}
+
+- (void)dealloc
+{
+    NSLog(@"XBEchoCancellation销毁");
+    [self stop];
+}
+
+
+#pragma mark - 开启或者停止音频输入、输出回调
 - (void)startInput
 {
     [self startService];
@@ -73,9 +95,12 @@ typedef struct MyAUGraphStruct{
 {
     self.isNeedOutputCallback = NO;
 }
+
+
+#pragma mark - 开启、停止服务
 - (void)startService
 {
-    if (self.isCloseService == NO)
+    if (self.isRunningService == YES)
     {
         return;
     }
@@ -88,9 +113,9 @@ typedef struct MyAUGraphStruct{
     
     [self startGraph:myStruct.graph];
     
-    AudioOutputUnitStart(myStruct.remoteIOUnit);
+    CheckError(AudioOutputUnitStart(myStruct.remoteIOUnit), "AudioOutputUnitStart failed");
     
-    self.isCloseService = NO;
+    self.isRunningService = YES;
     NSLog(@"startService完成");
 }
 
@@ -98,11 +123,15 @@ typedef struct MyAUGraphStruct{
 {
     self.bl_input = nil;
     self.bl_output = nil;
+    CheckError(AudioOutputUnitStop(myStruct.remoteIOUnit), "AudioOutputUnitStop failed");
     [self stopGraph:myStruct.graph];
 }
+
+
+#pragma mark - 开启或关闭回声消除
 - (void)openEchoCancellation
 {
-    if (self.isCloseService == YES)
+    if (self.isRunningService == NO)
     {
         return;
     }
@@ -110,7 +139,7 @@ typedef struct MyAUGraphStruct{
 }
 - (void)closeEchoCancellation
 {
-    if (self.isCloseService == YES)
+    if (self.isRunningService == NO)
     {
         return;
     }
@@ -119,7 +148,7 @@ typedef struct MyAUGraphStruct{
 ///0 开启，1 关闭
 -(void)openOrCloseEchoCancellation:(UInt32)newEchoCancellationStatus
 {
-    if (self.isCloseService == YES)
+    if (self.isRunningService == NO)
     {
         return;
     }
@@ -147,6 +176,9 @@ typedef struct MyAUGraphStruct{
     _echoCancellationStatus = newEchoCancellationStatus == 0 ? XBEchoCancellationStatus_open : XBEchoCancellationStatus_close;
 }
 
+
+#pragma mark - 初始化AUGraph和Audio Unit
+
 -(void)startGraph:(AUGraph)graph
 {
     CheckError(AUGraphInitialize(graph),
@@ -158,15 +190,14 @@ typedef struct MyAUGraphStruct{
 
 - (void)stopGraph:(AUGraph)graph
 {
-    if (self.isCloseService == YES)
+    if (self.isRunningService == NO)
     {
         return;
     }
-    CheckError(AUGraphUninitialize(graph),
-               "AUGraphUninitialize failed");
-    CheckError(AUGraphStop(graph),
-               "AUGraphStop failed");
-    self.isCloseService = YES;
+    CheckError(AUGraphStop(graph),"AUGraphStop failed");
+    CheckError(AUGraphUninitialize(graph),"AUGraphUninitialize failed");
+    CheckError(DisposeAUGraph(graph), "AUGraphDispose failed");
+    self.isRunningService = NO;
     _echoCancellationStatus = XBEchoCancellationStatus_close;
 }
 
@@ -201,7 +232,6 @@ typedef struct MyAUGraphStruct{
                "AUGraphNodeInfo failed");
 }
 
-
 -(void)setupRemoteIOUnit:(MyAUGraphStruct*)augStruct{
     //Open input of the bus 1(input mic)
     UInt32 inputEnableFlag = 1;
@@ -224,16 +254,16 @@ typedef struct MyAUGraphStruct{
                "Open output of bus 0 failed");
     
     UInt32 mFramesPerPacket = 1;
-    UInt32 mBytesPerFrame = kChannels * kBits / 8;
+    UInt32 mBytesPerFrame = _channel * _bit / 8;
     //Set up stream format for input and output
     streamFormat.mFormatID = kAudioFormatLinearPCM;
     streamFormat.mFormatFlags = kAudioFormatFlagIsSignedInteger | kAudioFormatFlagIsPacked;
-    streamFormat.mSampleRate = kRate;
+    streamFormat.mSampleRate = _rate;
     streamFormat.mFramesPerPacket = mFramesPerPacket;
     streamFormat.mBytesPerFrame = mBytesPerFrame;
     streamFormat.mBytesPerPacket = mBytesPerFrame * mFramesPerPacket;
-    streamFormat.mBitsPerChannel = kBits;
-    streamFormat.mChannelsPerFrame = kChannels;
+    streamFormat.mBitsPerChannel = _bit;
+    streamFormat.mChannelsPerFrame = _channel;
     
     CheckError(AudioUnitSetProperty(augStruct->remoteIOUnit,
                                     kAudioUnitProperty_StreamFormat,
@@ -274,11 +304,6 @@ typedef struct MyAUGraphStruct{
                "kAudioUnitProperty_SetRenderCallback failed");
 }
 
--(void)createRemoteIONodeToGraph:(AUGraph*)graph
-{
-    
-}
-
 -(void)setupSession
 {
     NSError *error = nil;
@@ -288,8 +313,7 @@ typedef struct MyAUGraphStruct{
 }
 
 
-#pragma mark - 其他方法
-
+#pragma mark - 检查错误的方法
 static void CheckError(OSStatus error, const char *operation)
 {
     if (error == noErr) return;
@@ -307,6 +331,8 @@ static void CheckError(OSStatus error, const char *operation)
     exit(1);
 }
 
+
+#pragma mark - 回调函数
 OSStatus InputCallback_xb(void *inRefCon,
                        AudioUnitRenderActionFlags *ioActionFlags,
                        const AudioTimeStamp *inTimeStamp,
@@ -370,6 +396,9 @@ OSStatus outputRenderTone_xb(
     return 0;
 }
 
+
+#pragma mark - 其他方法
+
 + (void)volume_controlOut_buf:(short *)out_buf in_buf:(short *)in_buf in_len:(int)in_len in_vol:(float)in_vol
 {
     volume_control(out_buf, in_buf, in_len, in_vol);
@@ -384,10 +413,10 @@ OSStatus outputRenderTone_xb(
 int volume_control(short* out_buf,short* in_buf,int in_len, float in_vol)
 {
     int i,tmp;
-    
+
     // in_vol[0,100]
     float vol = in_vol - 98;
-    
+
     if(-98 < vol  &&  vol <0 )
     {
         vol = 1/(vol*(-1));
@@ -408,7 +437,7 @@ int volume_control(short* out_buf,short* in_buf,int in_len, float in_vol)
     //    {
     //        vol = 2;
     //    }
-    
+
     for(i=0; i<in_len/2; i++)
     {
         tmp = in_buf[i]*vol;
@@ -422,7 +451,7 @@ int volume_control(short* out_buf,short* in_buf,int in_len, float in_vol)
         }
         out_buf[i] = tmp;
     }
-    
+
     return 0;
 }
 
