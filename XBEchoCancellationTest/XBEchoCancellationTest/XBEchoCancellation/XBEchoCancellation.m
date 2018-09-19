@@ -123,7 +123,7 @@ typedef struct MyAUGraphStruct{
 {
     self.bl_input = nil;
     self.bl_output = nil;
-    CheckError(AudioOutputUnitStop(myStruct.remoteIOUnit), "AudioOutputUnitStop failed");
+//    CheckError(AudioOutputUnitStop(myStruct.remoteIOUnit), "AudioOutputUnitStop failed");
     [self stopGraph:myStruct.graph];
 }
 
