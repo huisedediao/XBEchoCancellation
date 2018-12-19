@@ -3,7 +3,7 @@
 <br><br><br>
 ### 使用：
 <br>
-### 获取麦克风输入：
+获取麦克风输入：
 <pre>
     XBEchoCancellation *echo = [XBEchoCancellation shared];
     echo.bl_input = ^(AudioBufferList *bufferList) {
@@ -13,7 +13,7 @@
     [echo startInput];
 </pre>
 <br>
-### 播放pcm音频数据：
+播放pcm音频数据：
 <pre>
     XBEchoCancellation *echo = [XBEchoCancellation shared];
     echo.bl_output = ^(AudioBufferList *bufferList, UInt32 inNumberFrames) {
@@ -23,4 +23,5 @@
     [echo startOutput];
 </pre>
 <br>
+
 ### 如果对你有所帮助帮忙star下
